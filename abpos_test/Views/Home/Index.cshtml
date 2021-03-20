@@ -1,0 +1,57 @@
+﻿@model IPagedList<abpos_test.Models.DB.Vehiculos>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Mvc.Core.Common
+@{
+    ViewData["Title"] = "Inicio";
+}
+<a asp-action="Create" class="btn btn-block btn-primary">Agregar</a>
+<div class="text-right form-inline">
+    <form method="get" action=@Url.Action("Index","Home")>
+        <div class="btn-group" role="group">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Ordenar por
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li> @Html.ActionLink("Año", "Index", new { orden = ViewBag.ordenAnio })</li>
+                <li role="separator" class="divider"></li>
+                <li>@Html.ActionLink("Marca", "Index", new { orden = ViewBag.ordenMarca })</li>
+                <li role="separator" class="divider"></li>
+                <li>@Html.ActionLink("Modelo", "Index", new { orden = ViewBag.ordenModelo })</li>
+            </ul>
+        </div>
+    </form>
+</div><div class="text-center">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Marca</h5>
+                        <p class="card-text">@item.Modelo <br /> @item.Anio</p>
+                        <a asp-action="Edit" asp-route-id="@item.IdVehiculo">Editar</a> 
+                        <a asp-action="Details" asp-route-id="@item.IdVehiculo">Detalle</a> 
+                        <a  class="btn btn-danger" asp-action="Delete"  asp-route-id="@item.IdVehiculo">Eliminar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col float-left">
+            Pagina @(Model.PageCount<Model.PageNumber ? 0:Model.PageNumber) de @Model.PageCount
+        </div>
+        <div class="col float-right">
+            @Html.PagedListPager(Model, page =>
+                Url.Action("Index", new { page = page }),
+                new PagedListRenderOptions
+                     {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+            })
+        </div>
+    </div>
+</div>
