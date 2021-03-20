@@ -9,10 +9,13 @@ namespace abpos_test.Models.DB
 
         public int IdVehiculo { get; set; }
         [Required]
+        [MaxLength(100)]
         public string Marca { get; set; }
         [Required]
+        [MaxLength(100)]
         public string Modelo { get; set; }
         [Required]
+        [MaxLength(10)]
         public string Anio { get; set; }
     }
 }
